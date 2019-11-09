@@ -1,7 +1,7 @@
 {
   "name": "stream-reader-async",
   "author": "Dorumin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Reads a stream asynchronously, with a lot of helper methods",
   "main": "dist/index.js",
   "scripts": {
