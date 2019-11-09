@@ -1,5 +1,6 @@
 {
   "name": "stream-reader-async",
+  "author": "Dorumin",
   "version": "0.0.1",
   "description": "Reads a stream asynchronously, with a lot of helper methods",
   "main": "dist/index.js",
@@ -14,7 +15,6 @@
     "reader",
     "buffer"
   ],
-  "author": "Dorumin",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^12.12.5",
@@ -25,5 +25,13 @@
     "msgpack-lite": "^0.1.26",
     "node-repl": "^2.0.2",
     "typescript": "^3.6.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dorumin/stream-reader-async.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dorumin/stream-reader-async/issues"
+  },
+  "homepage": "https://github.com/Dorumin/stream-reader-async#readme"
 }
