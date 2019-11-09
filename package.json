@@ -1,7 +1,7 @@
 {
   "name": "stream-reader-async",
   "author": "Dorumin",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Provides an async interface for consuming readable streams",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
