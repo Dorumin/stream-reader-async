@@ -74,7 +74,6 @@ export default class AsyncStreamReader {
 
         do {
             buffer = this.stream.read(byteCount);
-            console.log(this.stream);
         } while (buffer === null && await this.readable())
 
         this.offset += byteCount;
@@ -117,7 +116,7 @@ export default class AsyncStreamReader {
     // Reads a string encoded as
     // 7 bit integer denoting the string length
     // all bytes composing the string, from the 7 bit int
-    async readString(len: number, encoding = 'utf8') {
+    async readString(len?: number, encoding = 'utf8') {
         const strlen = len || await this.read7BitEncodedInt();
         const buffer = await this.read(strlen);
 
