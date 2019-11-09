@@ -96,7 +96,7 @@ export default class AsyncStreamReader {
     }
 
     // Reads a 7 bit encoded integer
-    async read7bitInt() {
+    async read7BitEncodedInt() {
         let int = 0;
 
         while (true) {
@@ -118,7 +118,7 @@ export default class AsyncStreamReader {
     // 7 bit integer denoting the string length
     // all bytes composing the string, from the 7 bit int
     async readString(len: number, encoding = 'utf8') {
-        const strlen = len || await this.read7bitInt();
+        const strlen = len || await this.read7BitEncodedInt();
         const buffer = await this.read(strlen);
 
         return buffer.toString(encoding);

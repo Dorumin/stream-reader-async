@@ -18,7 +18,7 @@ Returns a new buffer of size `byteCount` and advances the stream position that s
 ### readByte()
 Returns the next byte and advances the stream position by one. Equal to calling `read(1)[0]`
 
-### read7bitInt()
+### read7BitEncodedInt()
 Reads a 7-bit encoded integer. This is not the same as a varint, as the order is not reversed before the final binary is added.
 
 A byte is read, if its most significant bit is a 1, there is another byte to be consumed. The other 7 bits are added to the number.
