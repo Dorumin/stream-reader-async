@@ -1,0 +1,29 @@
+{
+  "name": "stream-reader-async",
+  "version": "0.0.1",
+  "description": "Reads a stream asynchronously, with a lot of helper methods",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc && node-repl dist/index.js",
+    "test": "tsc && mocha"
+  },
+  "keywords": [
+    "async",
+    "stream",
+    "reader",
+    "buffer"
+  ],
+  "author": "Dorumin",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^12.12.5",
+    "@typescript-eslint/eslint-plugin": "^2.6.0",
+    "@typescript-eslint/parser": "^2.6.0",
+    "eslint": "^6.6.0",
+    "mocha": "^6.2.2",
+    "msgpack-lite": "^0.1.26",
+    "node-repl": "^2.0.2",
+    "typescript": "^3.6.4"
+  }
+}

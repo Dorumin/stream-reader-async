@@ -1,0 +1,8 @@
+# yk, the usual
+node_modules/
+
+# Where TypeScript is compiled to, I don't know if there's better ways
+dist/
+
+# Unit tests not fleshed out yet
+test/
