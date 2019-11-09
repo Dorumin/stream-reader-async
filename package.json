@@ -4,6 +4,7 @@
   "version": "0.0.3",
   "description": "Provides an async interface for consuming readable streams",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc && node-repl dist/index.js",
