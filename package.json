@@ -1,8 +1,8 @@
 {
   "name": "stream-reader-async",
   "author": "Dorumin",
-  "version": "0.0.2",
-  "description": "Reads a stream asynchronously, with a lot of helper methods",
+  "version": "0.0.3",
+  "description": "Provides an async interface for consuming readable streams",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
