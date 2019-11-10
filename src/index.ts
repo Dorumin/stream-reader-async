@@ -26,7 +26,11 @@ export default class AsyncStreamReader {
     public closed: boolean;
     public offset: number;
 
-    constructor(stream: Readable) {
+    constructor(stream: Readable | Buffer) {
+        if (stream instanceof Buffer) {
+            stream = new ReadableBuffer(stream);
+        }
+
         this.stream = stream;
         this.offset = 0;
         this.closed = false;
