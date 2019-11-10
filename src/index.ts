@@ -31,19 +31,20 @@ export default class AsyncStreamReader {
 
     constructor(stream: Readable | Buffer, { buffered } = { buffered: true }) {
         if (stream instanceof Buffer) {
+            buffered = true;
             stream = new ReadableBuffer(stream);
         }
 
         this.buffer = Buffer.alloc(0);
-        if (buffered) {
-            stream.read();
-        }
-
         this.stream = stream;
         this.buffered = buffered;
         this.finished = false;
         this.closed = false;
         this.offset = 0;
+
+        if (buffered) {
+            stream.read();
+        }
 
         // Noop so .once calls don't reset each time
         if (this.buffered) {
@@ -96,7 +97,7 @@ export default class AsyncStreamReader {
     async readFromBuffer(byteCount: number): Promise<Buffer> {
         await this.buffering;
 
-        const sub = this.buffer.slice(this.offset, this.offset + byteCount);
+        const sub = this.buffer.slice(this.offset, Math.min(this.offset + byteCount, this.buffer.length));
         this.offset += byteCount;
 
         return sub;
