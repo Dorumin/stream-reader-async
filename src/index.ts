@@ -30,8 +30,10 @@ export default class AsyncStreamReader {
     private buffering: Promise<void> | undefined;
 
     constructor(stream: Readable | Buffer, { buffered } = { buffered: true }) {
+        let passedBuffer = false;
         if (stream instanceof Buffer) {
             buffered = true;
+            passedBuffer = true;
             stream = new ReadableBuffer(stream);
         }
 
@@ -42,22 +44,22 @@ export default class AsyncStreamReader {
         this.closed = false;
         this.offset = 0;
 
-        if (buffered) {
-            stream.read();
-        }
-
-        // Noop so .once calls don't reset each time
         if (this.buffered) {
-            this.buffering = new Promise(res => {
-                const buffers: Buffer[] = [];
+            if (passedBuffer) {
+                this.buffering = Promise.resolve();
+            } else {
+                this.buffering = new Promise(res => {
+                    const buffers: Buffer[] = [];
 
-                this.stream.on('data', (buffer: Buffer) => buffers.push(buffer));
-                this.stream.once('close', () => {
-                    this.buffer = Buffer.concat(buffers);
-                    res();
+                    this.stream.on('data', (buffer: Buffer) => buffers.push(buffer));
+                    this.stream.on('end', () => {
+                        this.buffer = Buffer.concat(buffers);
+                        res();
+                    });
                 });
-            });
+            }
         } else {
+            // Noop so .once calls don't reset each time
             stream.on('readable', this.onReadable.bind(this));
         }
         stream.on('close', this.onClose.bind(this));
