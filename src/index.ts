@@ -22,22 +22,43 @@ export class ReadableBuffer extends Readable {
 
 export default class AsyncStreamReader {
     private stream: Readable;
+    private buffer: Buffer;
     public finished: boolean;
+    public buffered: boolean;
     public closed: boolean;
     public offset: number;
+    private buffering: Promise<void> | undefined;
 
-    constructor(stream: Readable | Buffer) {
+    constructor(stream: Readable | Buffer, { buffered } = { buffered: true }) {
         if (stream instanceof Buffer) {
             stream = new ReadableBuffer(stream);
         }
 
+        this.buffer = Buffer.alloc(0);
+        if (buffered) {
+            stream.read();
+        }
+
         this.stream = stream;
-        this.offset = 0;
-        this.closed = false;
+        this.buffered = buffered;
         this.finished = false;
+        this.closed = false;
+        this.offset = 0;
 
         // Noop so .once calls don't reset each time
-        stream.on('readable', this.onReadable.bind(this));
+        if (this.buffered) {
+            this.buffering = new Promise(res => {
+                const buffers: Buffer[] = [];
+
+                this.stream.on('data', (buffer: Buffer) => buffers.push(buffer));
+                this.stream.once('close', () => {
+                    this.buffer = Buffer.concat(buffers);
+                    res();
+                });
+            });
+        } else {
+            stream.on('readable', this.onReadable.bind(this));
+        }
         stream.on('close', this.onClose.bind(this));
     }
 
@@ -72,8 +93,22 @@ export default class AsyncStreamReader {
         this.closed = true;
     }
 
+    async readFromBuffer(byteCount: number): Promise<Buffer> {
+        await this.buffering;
+
+        const sub = this.buffer.slice(this.offset, this.offset + byteCount);
+        this.offset += byteCount;
+
+        return sub;
+    }
+
     async read(byteCount: number): Promise<Buffer> {
         if (byteCount === 0) return Buffer.alloc(0);
+
+        if (this.buffered) {
+            return this.readFromBuffer(byteCount);
+        }
+
         let buffer;
 
         do {
