@@ -98,6 +98,12 @@ export default class AsyncStreamReader {
         return buffer[0];
     }
 
+    async readBoolean(): Promise<boolean> {
+        const byte = await this.readByte();
+
+        return byte !== 0;
+    }
+
     // Reads a 7 bit encoded integer
     async read7BitEncodedInt() {
         let int = 0;
