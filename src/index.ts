@@ -46,6 +46,7 @@ export default class AsyncStreamReader {
 
         if (this.buffered) {
             if (passedBuffer) {
+                this.buffer = stream as any;
                 this.buffering = Promise.resolve();
             } else {
                 this.buffering = new Promise(res => {
