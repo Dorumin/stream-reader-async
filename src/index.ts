@@ -34,10 +34,12 @@ export default class AsyncStreamReader {
         if (stream instanceof Buffer) {
             buffered = true;
             passedBuffer = true;
+            this.buffer = stream;
             stream = new ReadableBuffer(stream);
+        } else {
+            this.buffer = Buffer.alloc(0);
         }
 
-        this.buffer = Buffer.alloc(0);
         this.stream = stream;
         this.buffered = buffered;
         this.finished = false;
@@ -46,7 +48,6 @@ export default class AsyncStreamReader {
 
         if (this.buffered) {
             if (passedBuffer) {
-                this.buffer = stream as any;
                 this.buffering = Promise.resolve();
             } else {
                 this.buffering = new Promise(res => {
