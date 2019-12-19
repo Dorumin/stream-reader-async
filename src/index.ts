@@ -94,7 +94,6 @@ export default class AsyncStreamReader {
     }
 
     private onClose() {
-        console.log('Stream closed');
         this.closed = true;
     }
 
@@ -118,7 +117,7 @@ export default class AsyncStreamReader {
 
         do {
             buffer = this.stream.read(byteCount);
-        } while (buffer === null && await this.readable())
+        } while (buffer === null && await this.readable());
 
         this.offset += byteCount;
 
